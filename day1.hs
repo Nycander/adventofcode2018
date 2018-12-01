@@ -43,9 +43,5 @@ printLn = putStrLn . show
 main :: IO ()
 main = do
     fileContent <- readFile "day1.txt"
--- Step 1:
---    printLn $ day01a fileContent
+    printLn $ day01a fileContent
     printLn $ day01b fileContent
-
-
-
