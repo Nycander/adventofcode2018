@@ -7,7 +7,6 @@ import Debug.Trace
 import Data.Set (Set)
 import qualified Data.Set as Set
 
-
 removeInitialChar :: Char -> String -> String
 removeInitialChar char str
     | head str == char = tail str
@@ -19,10 +18,16 @@ intsFromStr fileContent =
     where
         readInt = read :: String -> Int
         removePlus = removeInitialChar '+'
-        linesWithoutPlus c = map removePlus (lines c)
+        linesWithoutPlus = map removePlus . lines
 
-allFrequencies :: [Int] -> [Int]
-allFrequencies freqs = scanl (+) 0 freqs
+
+day01a :: String -> Int
+day01a = sum . intsFromStr
+
+day01b :: String -> Maybe Int
+day01b = firstRepeat . allFrequencies . intsFromStr
+    where
+        allFrequencies = scanl (+) 0 . cycle
 
 firstRepeat :: (Ord a) => [a] -> Maybe a
 firstRepeat = run Set.empty
@@ -32,18 +37,15 @@ firstRepeat = run Set.empty
             | otherwise        = run (x `Set.insert` s) xs
         run _ [] = Nothing
 
-day01a :: String -> Int
-day01a fileContent = sum $ intsFromStr $ fileContent
-
-day01b :: String -> Maybe Int
-day01b fileContent = firstRepeat $ allFrequencies $ cycle $ (intsFromStr fileContent)
+printLn :: (Show a) => a -> IO ()
+printLn = putStrLn . show
 
 main :: IO ()
 main = do
     fileContent <- readFile "day1.txt"
 -- Step 1:
---     putStrLn $ show $ day01a fileContent
-    putStrLn $ show $ day01b $ fileContent
+--    printLn $ day01a fileContent
+    printLn $ day01b fileContent
 
 
 
