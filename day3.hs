@@ -18,9 +18,8 @@ removeLastChar char str
     | otherwise        = str
 
 tupleDelimitedBy :: Char -> String -> (Int, Int)
-tupleDelimitedBy delim str = toTuple $ map (readInt . unpack) (split (==delim) (pack str))
+tupleDelimitedBy delim str = toTuple $ map (read . unpack) (split (==delim) (pack str))
   where
-    readInt = read :: String -> Int
     toTuple [a,b] = (a, b)
 
 -- Claim and its parsing code
@@ -35,12 +34,10 @@ parseClaim :: String -> Claim
 parseClaim txt =
   let [claimId, _, start, size] = words txt
   in Claim {
-    claimId = readInt $ removeInitialChar '#' claimId,
+    claimId = read $ removeInitialChar '#' claimId,
     start = tupleDelimitedBy ',' $ removeLastChar ':' start,
     size = tupleDelimitedBy 'x' size
   }
-    where
-      readInt = read :: String -> Int
 
 -- Solution code!
 
