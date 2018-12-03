@@ -46,10 +46,10 @@ parseClaim txt =
 
 fabric :: Claim -> Set.Set (Int, Int)
 fabric c = let
-  x = fst $ start c
-  y = snd $ start c
-  width = fst $ size c
-  height = snd $ size c
+    x = fst $ start c
+    y = snd $ start c
+    width = fst $ size c
+    height = snd $ size c
   in Set.fromList [ (dx, dy) |
     dx <- [x..(x + width - 1)],
     dy <- [y..(y + height - 1)]
