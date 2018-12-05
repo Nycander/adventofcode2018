@@ -6,28 +6,16 @@ module Day5 where
 import Data.Char (toLower, isUpper, isLower)
 import Data.Time (getCurrentTime, diffUTCTime)
 
-import Debug.Trace (trace)
-
 -- Solution code
 
 polymerMultiReaction :: String -> String
-polymerMultiReaction x = if x' == x then x else polymerMultiReaction x'
-  where x' = polymerReaction x
-
--- Single pass polymer reaction
-polymerReaction :: String -> String
-polymerReaction []         = []
-polymerReaction (x1:[])    = [x1]
-polymerReaction (x1:x2:xs)
-  | oppositePolarity x1 x2 = polymerReaction xs
-  | otherwise              = x1 : polymerReaction (x2:xs)
+polymerMultiReaction x = foldr step "" x
+  where
+    step x (y:ys) | oppositePolarity x y = ys
+    step x ys = x : ys
 
 oppositePolarity :: Char -> Char -> Bool
-oppositePolarity a b
-  | toLower a /= toLower b = False
-  | isUpper a && isLower b = True
-  | isLower a && isUpper b = True
-  | otherwise              = False
+oppositePolarity a b = a /= b && toLower a == toLower b
 
 stripChar :: Char -> String -> String
 stripChar c str = filter (\x -> toLower x /= c) str
@@ -49,7 +37,6 @@ main = do
 
     start <- getCurrentTime
 
-    let polymersLength = length polymers
     putStr "Part 2: "
     putStrLn $ show $ partB polymers
 
