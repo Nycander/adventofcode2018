@@ -1,0 +1,80 @@
+name:                adventofcode2018
+version:             0.1.0.0
+github:              "Nycander/adventofcode2018"
+author:              "Martin Nycander"
+copyright:           "2018 Martin Nycander"
+
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/adventofcode2018#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- containers
+- text
+- time
+
+library:
+  source-dirs: src
+
+executables:
+  day1:
+    main:                Day1.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day1
+    dependencies:
+    - adventofcode2018
+
+  day2:
+    main:                Day2.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day2
+    dependencies:
+    - adventofcode2018
+
+  day3:
+    main:                Day3.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day3
+    dependencies:
+    - adventofcode2018
+
+  day5:
+    main:                Day5.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is Day5RE
+    dependencies:
+    - adventofcode2018
+
+tests:
+  adventofcode2018-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - adventofcode2018

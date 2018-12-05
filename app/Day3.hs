@@ -1,26 +1,14 @@
 #!/usr/bin/env stack
 -- stack --install-ghc runghc
 
+module Day3 where
+
 import Data.Text (split, pack, unpack)
 import qualified Data.Set as Set
+import Util
 
 import Debug.Trace (trace)
 
- -- These are starting to become utils, create module?
-removeInitialChar :: Char -> String -> String
-removeInitialChar char str
-    | head str == char = tail str
-    | otherwise        = str
-
-removeLastChar :: Char -> String -> String
-removeLastChar char str
-    | last str == char = init str
-    | otherwise        = str
-
-tupleDelimitedBy :: Char -> String -> (Int, Int)
-tupleDelimitedBy delim str = toTuple $ map (read . unpack) (split (==delim) (pack str))
-  where
-    toTuple [a,b] = (a, b)
 
 -- Claim and its parsing code
 

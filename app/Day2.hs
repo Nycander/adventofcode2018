@@ -1,6 +1,8 @@
 #!/usr/bin/env stack
 -- stack --install-ghc runghc
 
+module Day2 where
+
 import Data.List
 
 countLinesWithCharCount :: Int -> String -> Int
@@ -32,5 +34,5 @@ main = do
     putStr "Part 1: "
     putStrLn $ show $ day02a fileContent
 
-    putStr "Part 2:"
+    putStr "Part 2: "
     putStrLn $ show $ day02b fileContent

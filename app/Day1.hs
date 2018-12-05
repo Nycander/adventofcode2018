@@ -1,16 +1,14 @@
 #!/usr/bin/env stack
 -- stack --install-ghc runghc
 
+module Day1 where
+
 import Data.Char
 import Data.List
 import Debug.Trace
 import Data.Set (Set)
 import qualified Data.Set as Set
-
-removeInitialChar :: Char -> String -> String
-removeInitialChar char str
-    | head str == char = tail str
-    | otherwise        = str
+import Util
 
 intsFromStr :: String -> [Int]
 intsFromStr fileContent =
@@ -19,7 +17,6 @@ intsFromStr fileContent =
         readInt = read :: String -> Int
         removePlus = removeInitialChar '+'
         linesWithoutPlus = map removePlus . lines
-
 
 day01a :: String -> Int
 day01a = sum . intsFromStr
