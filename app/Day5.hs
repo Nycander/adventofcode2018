@@ -8,8 +8,8 @@ import Data.Time (getCurrentTime, diffUTCTime)
 
 -- Solution code
 
-polymerMultiReaction :: String -> String
-polymerMultiReaction x = foldr step "" x
+polymerReaction :: String -> String
+polymerReaction x = foldr step "" x
   where
     step x (y:ys) | oppositePolarity x y = ys
     step x ys = x : ys
@@ -21,7 +21,7 @@ stripChar :: Char -> String -> String
 stripChar c str = filter (\x -> toLower x /= c) str
 
 partB :: String -> Int
-partB p = minimum $ map (length . polymerMultiReaction) (strippedPolymers p)
+partB p = minimum $ map (length . polymerReaction) (strippedPolymers p)
   where
     strippedPolymers p = [ stripChar c p | c <- ['a'..'z'] ]
 
@@ -31,7 +31,7 @@ main = do
 
     start <- getCurrentTime
     putStr "Part 1: "
-    putStrLn $ show $ length $ (polymerMultiReaction polymers)
+    putStrLn $ show $ length $ (polymerReaction polymers)
     end <- getCurrentTime
     print (diffUTCTime end start)
 

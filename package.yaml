@@ -4,6 +4,11 @@ github:              "Nycander/adventofcode2018"
 author:              "Martin Nycander"
 copyright:           "2018 Martin Nycander"
 
+extra-source-files:
+  - day1.txt
+  - day2.txt
+  - day3.txt
+  - day5.txt
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -64,7 +69,7 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    - -main-is Day5RE
+    - -main-is Day5
     dependencies:
     - adventofcode2018
 
