@@ -77,16 +77,11 @@ main = do
     start <- getCurrentTime
     putStr "Part 1: "
     putStrLn $ findPath deps
-
     end <- getCurrentTime
     print (diffUTCTime end start)
 
     start <- getCurrentTime
-
     putStr "Part 2: "
     putStrLn $ show $ timeUntilDone deps 5
-
-
-
     end <- getCurrentTime
     print (diffUTCTime end start)
