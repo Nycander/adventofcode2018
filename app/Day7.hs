@@ -3,8 +3,10 @@
 
 module Day7 where
 
-import Data.Char (toLower, isUpper, isLower)
+import Data.Char (toLower, isUpper, isLower, ord)
 import Data.Time (getCurrentTime, diffUTCTime)
+
+import Debug.Trace (trace)
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
@@ -29,16 +31,37 @@ findPath deps = go deps "" Set.empty
     go :: Deps -> String -> Set.Set Char -> String
     go deps path visited
       | Map.null deps = reverse path
-      | otherwise     = let next = findNext deps visited
+      | otherwise     = let next = minimum $ findOptions deps visited
                         in go (Map.delete next deps) (next : path) (Set.insert next visited)
 
-findNext :: Deps -> Set.Set Char -> Char
-findNext deps visited =
-  let
-    options = Map.filter Set.null (Map.map (\x -> Set.difference x (x `Set.intersection` visited)) deps)
-  in
-    minimum $ Map.keys options
+findOptions :: Deps -> Set.Set Char -> [Char]
+findOptions deps visited = Map.keys $ Map.filter Set.null (Map.map (\x -> Set.difference x (x `Set.intersection` visited)) deps)
 
+partB :: Deps -> Int -> Int
+partB deps workers = loop deps Map.empty (take workers $ repeat 0) 0
+  where
+    loop :: Deps -> Map.Map Char Int -> [Int] -> Int -> Int
+    loop deps unavailAt workers t
+      | Map.null deps    = maximum workers
+      | all (>t) workers = loop deps unavailAt workers (t+1)
+      | null $ findOptions deps (visited unavailAt t) = loop deps unavailAt workers (t+1)
+      | otherwise        =
+          let next = minimum $ findOptions deps (visited unavailAt t)
+          in loop
+            (Map.delete next deps)
+            (Map.insert next (timeToWork next t) unavailAt)
+            (addWorkToWorker workers t next)
+            t
+    visited unavailAt t = (Set.fromList $ Map.keys $ Map.filter (<=t) unavailAt)
+    addWorkToWorker :: [Int] -> Int -> Char -> [Int]
+    addWorkToWorker workers t work =
+        let
+          working = (filter (>t) workers)
+          idle = (filter (<=t) workers)
+        in
+          (timeToWork work t : (tail idle)) ++ working
+    timeToWork :: Char -> Int -> Int
+    timeToWork work t = ord work - ord 'A' + 1 + t + 60
 
 main :: IO ()
 main = do
@@ -57,7 +80,9 @@ main = do
     start <- getCurrentTime
 
     putStr "Part 2: "
-    putStrLn ""
+    putStrLn $ show $ partB deps 5
+
+
 
     end <- getCurrentTime
     print (diffUTCTime end start)
